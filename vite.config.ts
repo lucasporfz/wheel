@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react'
 // Ex.: se seu repositório se chama "wheel-bot", use base: '/wheel-bot/'
 export default defineConfig({
   plugins: [react()],
-  base: '/REPO_NAME/',
+  base: '/wheel/',
 })
