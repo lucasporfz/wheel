@@ -1,0 +1,108 @@
+:root{
+  --bg:#0b0f14;
+  --card:#121821;
+  --muted:#6b7a90;
+  --fg:#e9eef7;
+  --brand:#7cc7ff;
+  --ok:#2ecc71;
+  --bad:#ff6b6b;
+}
+
+*{ box-sizing: border-box; }
+html,body,#root{ height:100%; }
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;
+  background: radial-gradient(1200px 600px at 10% 0%, #0e1520, #090d12) fixed;
+  color:var(--fg);
+}
+
+.container{
+  max-width: 980px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.card{
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  padding: 20px;
+}
+
+h1{
+  font-size: 22px;
+  margin: 0 0 10px;
+}
+h2{
+  font-size: 16px;
+  color: var(--muted);
+  font-weight: 500;
+  margin: 0 0 16px;
+}
+label{
+  display:block;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+textarea{
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #0e131b;
+  color: var(--fg);
+  resize: vertical;
+}
+
+.row{ display: flex; gap: 12px; flex-wrap: wrap; }
+button{
+  appearance: none;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(#141b26, #0e141d);
+  color: var(--fg);
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: transform .05s ease;
+}
+button:hover{ transform: translateY(-1px); }
+button.primary{
+  border-color: rgba(124,199,255,0.35);
+  box-shadow: 0 6px 20px rgba(124,199,255,0.15);
+}
+
+.output{
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #0e141d;
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.bad{ border-left: 4px solid var(--bad); }
+.ok{ border-left: 4px solid var(--ok); }
+
+.small{
+  font-size: 12px;
+  color: var(--muted);
+}
+code{
+  background: rgba(124,199,255,0.08);
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(124,199,255,0.25);
+}
+.linkbox{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  background: #0b1119;
+  border:1px dashed rgba(255,255,255,0.1);
+}
