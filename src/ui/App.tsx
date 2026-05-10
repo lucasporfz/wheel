@@ -1,89 +1,157 @@
 import React from 'react'
-import { parseInput, type Spec } from '../nlu/parse'
-import { solve } from '../engine/solve'
+import type { Vocation, AllocationMap } from '../data/types'
+import type { WheelState } from '../data/types'
+import { WHEELS } from '../data/index'
+import { canAllocate, canDeallocate } from '../engine/constraints'
 import { encodeState, decodeState } from './state'
+import WheelSvg from './WheelSvg'
+import ControlPanel from './ControlPanel'
+import PromptPanel from './PromptPanel'
+import ManualPanel from './ManualPanel'
 
-export default function App(){
-  const [input, setInput] = React.useState<string>('sou paladino com 1464 pontos, quero Gift of Life 2, Gran Con 2 e 3 espaços para greater gems')
-  const [spec, setSpec] = React.useState<Spec|null>(null)
-  const [result, setResult] = React.useState<any|null>(null)
-  const [shareUrl, setShareUrl] = React.useState<string>('')
+type Action =
+  | { type: 'SET_VOCATION'; vocation: Vocation }
+  | { type: 'SET_LEVEL'; level: number | null }
+  | { type: 'SET_MANUAL_POINTS'; points: number | null }
+  | { type: 'SET_MODE'; mode: 'manual' | 'prompt' }
+  | { type: 'SET_PROMPT_TEXT'; text: string }
+  | { type: 'ALLOCATE'; perkId: string; delta: 1 | -1 }
+  | { type: 'APPLY_ALLOCATION'; allocation: AllocationMap; vocation: Vocation; level: number | null; points: number | null }
+  | { type: 'RESET' }
+  | { type: 'LOAD_STATE'; state: WheelState }
 
-  // Carrega estado da URL (share)
-  React.useEffect(()=>{
+const INITIAL_STATE: WheelState = {
+  vocation: null,
+  level: null,
+  manualPoints: null,
+  allocation: {},
+  promptText: '',
+  mode: 'manual',
+}
+
+function reducer(state: WheelState, action: Action): WheelState {
+  switch (action.type) {
+    case 'SET_VOCATION':
+      return { ...state, vocation: action.vocation, allocation: {} }
+    case 'SET_LEVEL':
+      return { ...state, level: action.level }
+    case 'SET_MANUAL_POINTS':
+      return { ...state, manualPoints: action.points }
+    case 'SET_MODE':
+      return { ...state, mode: action.mode }
+    case 'SET_PROMPT_TEXT':
+      return { ...state, promptText: action.text }
+    case 'ALLOCATE': {
+      if (!state.vocation) return state
+      const wheel = WHEELS[state.vocation]
+      if (!wheel) return state
+      if (action.delta === 1 && !canAllocate(action.perkId, wheel, state.allocation)) return state
+      if (action.delta === -1 && !canDeallocate(action.perkId, wheel, state.allocation)) return state
+      const cur = state.allocation[action.perkId] ?? 0
+      const next = cur + action.delta
+      const alloc = { ...state.allocation }
+      if (next <= 0) {
+        delete alloc[action.perkId]
+      } else {
+        alloc[action.perkId] = next
+      }
+      return { ...state, allocation: alloc }
+    }
+    case 'APPLY_ALLOCATION':
+      return {
+        ...state,
+        vocation: action.vocation,
+        level: action.level ?? state.level,
+        manualPoints: action.points ?? state.manualPoints,
+        allocation: action.allocation,
+        mode: 'manual',
+      }
+    case 'RESET':
+      return { ...INITIAL_STATE }
+    case 'LOAD_STATE':
+      return action.state
+    default:
+      return state
+  }
+}
+
+export default function App() {
+  const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE)
+
+  React.useEffect(() => {
     const url = new URL(window.location.href)
     const stateParam = url.searchParams.get('state')
-    if(stateParam){
-      try{
-        const restored = decodeState(stateParam)
-        if(restored?.input) setInput(restored.input)
-        if(restored?.spec) setSpec(restored.spec)
-        if(restored?.result) setResult(restored.result)
-      }catch(e){ /* ignore */ }
+    if (stateParam) {
+      const restored = decodeState(stateParam)
+      if (restored) dispatch({ type: 'LOAD_STATE', state: restored })
     }
   }, [])
 
-  function onValidate(){
-    const parsed = parseInput(input)
-    setSpec(parsed)
-    const solved = solve(parsed)
-    setResult(solved)
-    // Gera um link compartilhável que carrega input/spec/resultado
-    const code = encodeState({ input, spec: parsed, result: solved })
-    const base = window.location.origin + window.location.pathname.replace(/index\.html$/, '')
-    const url = base + '?state=' + encodeURIComponent(code)
-    setShareUrl(url)
-    // Atualiza a barra do navegador também (UX)
+  React.useEffect(() => {
+    const encoded = encodeState(state)
+    const base = window.location.origin + window.location.pathname
+    const url = base + '?state=' + encodeURIComponent(encoded)
     window.history.replaceState(null, '', url)
-  }
+  }, [state])
 
-  async function copy(text:string){
-    try{ await navigator.clipboard.writeText(text) }catch(_){}
-  }
+  const wheel = state.vocation ? WHEELS[state.vocation] ?? null : null
+
+  const shareUrl = React.useMemo(() => {
+    const encoded = encodeState(state)
+    return window.location.origin + window.location.pathname + '?state=' + encodeURIComponent(encoded)
+  }, [state])
 
   return (
-    <div className="container">
-      <div className="card">
-        <h1>Wheel Bot — MVP (100% front-end)</h1>
-        <h2>Digite instruções em PT-BR que o bot consegue entender (vocação, pontos, perks e gemas).</h2>
-
-        <label>Instruções (exemplo abaixo)</label>
-        <textarea value={input} onChange={e=>setInput(e.target.value)} />
-
-        <div className="row" style={{marginTop:12}}>
-          <button className="primary" onClick={onValidate}>Validar & Gerar Link</button>
-          <button onClick={()=>copy(input)}>Copiar instruções</button>
-        </div>
-
-        {spec && (
-          <div className="output">
-            <div className="small">Spec:</div>
-            <pre>{JSON.stringify(spec, null, 2)}</pre>
+    <div className="app-layout">
+      <div className="wheel-container">
+        {wheel ? (
+          <WheelSvg
+            wheel={wheel}
+            allocation={state.allocation}
+            totalBudget={state.manualPoints ?? (state.level !== null ? Math.max(0, state.level - 50) : 0)}
+            onPerkClick={(perkId, delta) => dispatch({ type: 'ALLOCATE', perkId, delta })}
+          />
+        ) : (
+          <div className="wheel-placeholder">
+            <div className="wheel-placeholder-inner">
+              <div className="wheel-placeholder-title">Wheel of Destiny</div>
+              <div className="wheel-placeholder-sub">Selecione uma vocação para começar</div>
+            </div>
           </div>
         )}
+      </div>
 
-        {result && (
-          <div className={"output " + (result.ok ? "ok":"bad")}>
-            <div><b>{result.ok ? "É possível (DEMO)" : "Não é possível (DEMO)"}</b></div>
-            {!result.ok && <div className="small">{result.reason}</div>}
-            {result.ok && (
-              <>
-                <div className="small">Resumo:</div>
-                <pre>{JSON.stringify(result.summary, null, 2)}</pre>
-                <div className="linkbox">
-                  <div><b>Link compartilhável (recarrega este mesmo estado):</b></div>
-                  <div style={{wordBreak:'break-all'}}>{shareUrl}</div>
-                  <div className="row" style={{marginTop:8}}>
-                    <button onClick={()=>copy(shareUrl)}>Copiar link</button>
-                  </div>
-                  <div className="small" style={{marginTop:8}}>
-                    Observação: este MVP ainda <b>não</b> gera o “export code/URL” do planner oficial. 
-                    Para isso, você precisará implementar a engine/mapper da Wheel e, se quiser screenshot, um backend.
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+      <div className="side-panel">
+        <ControlPanel
+          vocation={state.vocation}
+          level={state.level}
+          manualPoints={state.manualPoints}
+          allocation={state.allocation}
+          wheel={wheel}
+          mode={state.mode}
+          shareUrl={shareUrl}
+          onVocationChange={v => dispatch({ type: 'SET_VOCATION', vocation: v })}
+          onLevelChange={n => dispatch({ type: 'SET_LEVEL', level: n })}
+          onManualPointsChange={n => dispatch({ type: 'SET_MANUAL_POINTS', points: n })}
+          onModeChange={m => dispatch({ type: 'SET_MODE', mode: m })}
+          onReset={() => dispatch({ type: 'RESET' })}
+        />
+
+        {state.mode === 'prompt' && (
+          <PromptPanel
+            initialText={state.promptText}
+            onApply={(allocation, vocation, level, points) =>
+              dispatch({ type: 'APPLY_ALLOCATION', allocation, vocation, level, points })
+            }
+          />
+        )}
+
+        {state.mode === 'manual' && (
+          <ManualPanel
+            wheel={wheel}
+            allocation={state.allocation}
+            onPerkChange={(perkId, delta) => dispatch({ type: 'ALLOCATE', perkId, delta })}
+          />
         )}
       </div>
     </div>
