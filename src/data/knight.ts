@@ -6,7 +6,6 @@ import type { VocationWheel } from './types'
 //   1 = Yellow → Executioner's Throw
 //   2 = Blue   → Combat Mastery
 //   3 = Purple → Avatar of Steel
-// VERIFY: exact domain-to-revelation mapping in-game
 
 export const KNIGHT_WHEEL: VocationWheel = {
   vocation: 'knight',
@@ -29,8 +28,8 @@ export const KNIGHT_WHEEL: VocationWheel = {
         { id: 'ek_d0_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 0, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ek_d0_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ek_d0_life_leech', name: 'Life Leech', namePt: 'absorção de vida', tier: 'conviction', domain: 0, maxPoints: 1, effect: '+0.75% life leech chance', requires: ['ek_d0_hp', 'ek_d0_mana'] },
-        { id: 'ek_d0_fire_res', name: 'Fire Resistance', namePt: 'resistência ao fogo', tier: 'conviction', domain: 0, maxPoints: 1, effect: '+2% fire resistance', requires: ['ek_d0_capacity'] },
+        { id: 'ek_d0_battle_instinct', name: 'Battle Instinct', namePt: 'instinto de batalha', tier: 'conviction', domain: 0, maxPoints: 1, effect: '+6 shielding +1 sword/axe/club fighting per adjacent creature (up to 5); each additional beyond 5 (max 8) gives same bonus', requires: ['ek_d0_hp', 'ek_d0_mana'] },
+        { id: 'ek_d0_aug_chivalrous_challenge', name: 'Aug: Chivalrous Challenge', namePt: 'aug: desafio cavalheiresco', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Augments Chivalrous Challenge', requires: ['ek_d0_capacity'], stages: [{ points: 225, effect: 'Aug I: -20 mana cost' }, { points: 450, effect: 'Aug II: +1 additional target' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ek_d0_gift_of_life', name: 'Gift of Life', namePt: 'presente da vida', tier: 'revelation', domain: 0, maxPoints: 1,
@@ -59,12 +58,12 @@ export const KNIGHT_WHEEL: VocationWheel = {
         { id: 'ek_d1_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 1, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ek_d1_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 1, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ek_d1_battle_instinct', name: 'Battle Instinct', namePt: 'instinto de batalha', tier: 'conviction', domain: 1, maxPoints: 1, effect: '+6 shielding and +1 melee skill per adjacent enemy creature', requires: ['ek_d1_hp', 'ek_d1_mana'] },
-        { id: 'ek_d1_energy_res', name: 'Energy Resistance', namePt: 'resistência à energia', tier: 'conviction', domain: 1, maxPoints: 1, effect: '+2% energy resistance', requires: ['ek_d1_capacity'] },
+        { id: 'ek_d1_aug_fierce_berserk', name: 'Aug: Fierce Berserk', namePt: 'aug: berserk feroz', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Augments Fierce Berserk', requires: ['ek_d1_hp', 'ek_d1_mana'], stages: [{ points: 50, effect: 'Aug I: -30 mana cost' }, { points: 625, effect: 'Aug II: +10% base damage' }] },
+        { id: 'ek_d1_aug_front_sweep', name: 'Aug: Front Sweep', namePt: 'aug: varredura frontal', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Augments Front Sweep', requires: ['ek_d1_capacity'], stages: [{ points: 50, effect: 'Aug I: +5% life leech on spell' }, { points: 625, effect: 'Aug II: +14% base damage' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ek_d1_executioners_throw', name: "Executioner's Throw", namePt: 'arremesso do executor', tier: 'revelation', domain: 1, maxPoints: 1,
-          effect: 'Throw your weapon at target; bounces to 1/2/3 nearby enemies. +100/125/150% damage to targets below 30% HP. Cooldown: 22/18/14s.',
+          effect: 'Throw your weapon at target; bounces to 1/2/3 nearby enemies. +100/125/150% damage to targets below 30% HP.',
           stages: [
             { points: 250, effect: 'Stage 1: bounces to 1 enemy; +100% damage vs low HP; cooldown 22s' },
             { points: 500, effect: 'Stage 2: bounces to 2 enemies; +125% damage vs low HP; cooldown 18s' },
@@ -89,16 +88,16 @@ export const KNIGHT_WHEEL: VocationWheel = {
         { id: 'ek_d2_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 2, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ek_d2_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 2, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ek_d2_battle_healing', name: 'Battle Healing', namePt: 'cura em batalha', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Heal based on shielding skill; healing multiplied when HP is low', requires: ['ek_d2_hp', 'ek_d2_mana'] },
-        { id: 'ek_d2_ice_res', name: 'Ice Resistance', namePt: 'resistência ao gelo', tier: 'conviction', domain: 2, maxPoints: 1, effect: '+2% ice resistance', requires: ['ek_d2_capacity'] },
+        { id: 'ek_d2_battle_healing', name: 'Battle Healing', namePt: 'cura em batalha', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Heals per challenged creature based on shielding skill; ×2 if HP <60%; ×3 if HP <30%', requires: ['ek_d2_hp', 'ek_d2_mana'] },
+        { id: 'ek_d2_aug_groundshaker', name: 'Aug: Groundshaker', namePt: 'aug: abalo sísmico', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Groundshaker', requires: ['ek_d2_capacity'], stages: [{ points: 225, effect: 'Aug I: +12.5% base damage' }, { points: 450, effect: 'Aug II: -2s cooldown' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ek_d2_combat_mastery', name: 'Combat Mastery', namePt: 'maestria de combate', tier: 'revelation', domain: 2, maxPoints: 1,
-          effect: 'Passive: increases critical extra damage for two-handed weapons (or shielding bonus for one-handed).',
+          effect: 'Passive: increases critical extra damage for two-handed weapons, or shield defence bonus for one-handed.',
           stages: [
-            { points: 250, effect: 'Stage 1: +5% critical extra damage (two-handed) or +8 shielding (one-handed)' },
-            { points: 500, effect: 'Stage 2: +10% critical extra damage or +12 shielding' },
-            { points: 1000, effect: 'Stage 3: +15% critical extra damage or +16 shielding' },
+            { points: 250, effect: 'Stage 1: +4% crit extra damage (two-handed) or +10 shield defence (one-handed)' },
+            { points: 500, effect: 'Stage 2: +8% crit extra damage or +20 shield defence' },
+            { points: 1000, effect: 'Stage 3: +12% crit extra damage or +30 shield defence' },
           ]
         },
       ],
@@ -119,8 +118,7 @@ export const KNIGHT_WHEEL: VocationWheel = {
         { id: 'ek_d3_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 3, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ek_d3_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 3, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ek_d3_mana_leech', name: 'Mana Leech', namePt: 'absorção de mana', tier: 'conviction', domain: 3, maxPoints: 1, effect: '+0.25% mana leech chance', requires: ['ek_d3_hp', 'ek_d3_mana'] },
-        { id: 'ek_d3_earth_res', name: 'Earth Resistance', namePt: 'resistência à terra', tier: 'conviction', domain: 3, maxPoints: 1, effect: '+2% earth resistance', requires: ['ek_d3_capacity'] },
+        { id: 'ek_d3_aug_intense_wound_cleansing', name: 'Aug: Intense Wound Cleansing', namePt: 'aug: cura intensa de feridas', tier: 'conviction', domain: 3, maxPoints: 1, effect: 'Augments Intense Wound Cleansing', requires: ['ek_d3_hp', 'ek_d3_mana'], stages: [{ points: 225, effect: 'Aug I: +125% base heal' }, { points: 450, effect: 'Aug II: -300s cooldown' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ek_d3_avatar_of_steel', name: 'Avatar of Steel', namePt: 'avatar do aço', tier: 'revelation', domain: 3, maxPoints: 1,

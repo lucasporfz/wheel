@@ -2,7 +2,6 @@ import type { VocationWheel } from './types'
 
 // Elder Druid - Wheel of Destiny
 // Revelation perks: Gift of Life, Twin Bursts, Blessing of the Grove, Avatar of Nature
-// VERIFY: exact domain-to-revelation mapping in-game
 
 export const DRUID_WHEEL: VocationWheel = {
   vocation: 'druid',
@@ -25,8 +24,8 @@ export const DRUID_WHEEL: VocationWheel = {
         { id: 'ed_d0_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 0, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ed_d0_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ed_d0_healing_link', name: 'Healing Link', namePt: 'elo de cura', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Heal yourself for 10% of any healing you apply to others', requires: ['ed_d0_hp', 'ed_d0_mana'] },
-        { id: 'ed_d0_fire_res', name: 'Fire Resistance', namePt: 'resistência ao fogo', tier: 'conviction', domain: 0, maxPoints: 1, effect: '+2% fire resistance', requires: ['ed_d0_capacity'] },
+        { id: 'ed_d0_healing_link', name: 'Healing Link', namePt: 'elo de cura', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Heal yourself 10% of healing applied to others via Nature\'s Embrace or Heal Friend', requires: ['ed_d0_hp', 'ed_d0_mana'] },
+        { id: 'ed_d0_aug_heal_friend', name: 'Aug: Heal Friend', namePt: 'aug: curar amigo', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Augments Heal Friend', requires: ['ed_d0_capacity'], stages: [{ points: 50, effect: 'Aug I: -10 mana cost' }, { points: 625, effect: 'Aug II: +5.5% base heal' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ed_d0_gift_of_life', name: 'Gift of Life', namePt: 'presente da vida', tier: 'revelation', domain: 0, maxPoints: 1,
@@ -55,8 +54,8 @@ export const DRUID_WHEEL: VocationWheel = {
         { id: 'ed_d1_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 1, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ed_d1_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 1, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ed_d1_runic_mastery', name: 'Runic Mastery', namePt: 'maestria rúnica', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Enhances rune-based spells and effects', requires: ['ed_d1_hp', 'ed_d1_mana'] },
-        { id: 'ed_d1_energy_res', name: 'Energy Resistance', namePt: 'resistência à energia', tier: 'conviction', domain: 1, maxPoints: 1, effect: '+2% energy resistance', requires: ['ed_d1_capacity'] },
+        { id: 'ed_d1_runic_mastery', name: 'Runic Mastery', namePt: 'maestria rúnica', tier: 'conviction', domain: 1, maxPoints: 1, effect: '25% chance to increase Magic Level by 10% for 2s when using a rune (20% if it\'s a rune you can craft)', requires: ['ed_d1_hp', 'ed_d1_mana'] },
+        { id: 'ed_d1_aug_natures_embrace', name: "Aug: Nature's Embrace", namePt: 'aug: abraço da natureza', tier: 'conviction', domain: 1, maxPoints: 1, effect: "Augments Nature's Embrace", requires: ['ed_d1_capacity'], stages: [{ points: 225, effect: 'Aug I: +11% base heal' }, { points: 450, effect: 'Aug II: -10s cooldown' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ed_d1_twin_bursts', name: 'Twin Bursts', namePt: 'duplas explosões', tier: 'revelation', domain: 1, maxPoints: 1,
@@ -85,18 +84,16 @@ export const DRUID_WHEEL: VocationWheel = {
         { id: 'ed_d2_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 2, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ed_d2_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 2, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ed_d2_life_leech', name: 'Life Leech', namePt: 'absorção de vida', tier: 'conviction', domain: 2, maxPoints: 1, effect: '+0.75% life leech chance', requires: ['ed_d2_hp', 'ed_d2_mana'] },
-        // 2026 new druid conviction perks
-        { id: 'ed_d2_lifegiver', name: 'Lifegiver', namePt: 'doador de vida', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Ally healing spells increased by 110%, but spell cooldowns doubled', requires: ['ed_d2_capacity'] },
-        { id: 'ed_d2_rejuvenation', name: 'Rejuvenation', namePt: 'rejuvenescimento', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Self-healing spells heal 10% more', requires: ['ed_d2_life_leech', 'ed_d2_lifegiver'] },
+        { id: 'ed_d2_aug_strong_ice_wave', name: 'Aug: Strong Ice Wave', tier: 'conviction', namePt: 'aug: onda de gelo forte', domain: 2, maxPoints: 1, effect: 'Augments Strong Ice Wave', requires: ['ed_d2_hp', 'ed_d2_mana'], stages: [{ points: 50, effect: 'Aug I: +3% mana leech on spell' }, { points: 625, effect: 'Aug II: +10% base damage' }] },
+        { id: 'ed_d2_aug_mass_healing', name: 'Aug: Mass Healing', namePt: 'aug: cura em massa', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Mass Healing', requires: ['ed_d2_capacity'], stages: [{ points: 225, effect: 'Aug I: +4% base heal' }, { points: 450, effect: 'Aug II: expand area by 1 sqm' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ed_d2_blessing_of_grove', name: 'Blessing of the Grove', namePt: 'bênção do bosque', tier: 'revelation', domain: 2, maxPoints: 1,
-          effect: 'Healing increases by 0.06/0.09/0.12% for every 1% of your target\'s missing HP.',
+          effect: 'Healing bonus based on target\'s missing HP percentage.',
           stages: [
-            { points: 250, effect: 'Stage 1: +0.06% healing per 1% missing HP of target' },
-            { points: 500, effect: 'Stage 2: +0.09% healing per 1% missing HP of target' },
-            { points: 1000, effect: 'Stage 3: +0.12% healing per 1% missing HP of target' },
+            { points: 250, effect: 'Stage 1: +6% healing if target 30–60% HP; +12% healing if target <30% HP' },
+            { points: 500, effect: 'Stage 2: +9% healing if target 30–60% HP; +18% healing if target <30% HP' },
+            { points: 1000, effect: 'Stage 3: +12% healing if target 30–60% HP; +24% healing if target <30% HP' },
           ]
         },
       ],
@@ -117,8 +114,7 @@ export const DRUID_WHEEL: VocationWheel = {
         { id: 'ed_d3_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 3, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ed_d3_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 3, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ed_d3_mana_leech', name: 'Mana Leech', namePt: 'absorção de mana', tier: 'conviction', domain: 3, maxPoints: 1, effect: '+0.25% mana leech chance', requires: ['ed_d3_hp', 'ed_d3_mana'] },
-        { id: 'ed_d3_shared_preservation', name: 'Shared Preservation', namePt: 'preservação compartilhada', tier: 'conviction', domain: 3, maxPoints: 1, effect: 'Healing spells also heal a secondary party target for 30% effectiveness', requires: ['ed_d3_capacity'] },
+        { id: 'ed_d3_aug_terra_wave', name: 'Aug: Terra Wave', namePt: 'aug: onda de terra', tier: 'conviction', domain: 3, maxPoints: 1, effect: 'Augments Terra Wave', requires: ['ed_d3_hp', 'ed_d3_mana'], stages: [{ points: 225, effect: 'Aug I: +6.5% base damage' }, { points: 450, effect: 'Aug II: +5% life leech on spell' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ed_d3_avatar_of_nature', name: 'Avatar of Nature', namePt: 'avatar da natureza', tier: 'revelation', domain: 3, maxPoints: 1,
