@@ -2,8 +2,6 @@ import type { VocationWheel } from './types'
 
 // Exalted Monk - Wheel of Destiny (added 2025)
 // Revelation perks: Gift of Life, Spiritual Outburst, Ascetic, Avatar of Balance
-// New: Vessel Resonance conviction perk (one per domain)
-// VERIFY: all domain assignments and perk details in-game
 
 export const MONK_WHEEL: VocationWheel = {
   vocation: 'monk',
@@ -17,17 +15,17 @@ export const MONK_WHEEL: VocationWheel = {
       color: 'hsl(130,60%,45%)',
       perks: [
         // ── Dedication ──────────────────────────────────────────────────────
-        { id: 'em_d0_hp', name: 'Hit Points', namePt: 'pontos de vida', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+2 HP per point' },  // VERIFY
-        { id: 'em_d0_mana', name: 'Mana', namePt: 'mana', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+3 Mana per point' },  // VERIFY
-        { id: 'em_d0_capacity', name: 'Capacity', namePt: 'capacidade', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+3 Capacity per point' },  // VERIFY
+        { id: 'em_d0_hp', name: 'Hit Points', namePt: 'pontos de vida', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+2 HP per point' },
+        { id: 'em_d0_mana', name: 'Mana', namePt: 'mana', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+3 Mana per point' },
+        { id: 'em_d0_capacity', name: 'Capacity', namePt: 'capacidade', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+3 Capacity per point' },
         { id: 'em_d0_hpregen', name: 'HP Regen Boost', namePt: 'recarga de vida', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+0.2% HP regen burst chance per point' },
         { id: 'em_d0_manaregen', name: 'Mana Regen Boost', namePt: 'recarga de mana', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+0.2% Mana regen burst chance per point' },
         { id: 'em_d0_familiar_exp', name: 'Familiar Expertise', namePt: 'expertise familiar', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+0.3% familiar HP, +0.1% familiar damage per point' },
         { id: 'em_d0_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 0, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'em_d0_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'em_d0_vessel_resonance', name: 'Vessel Resonance', namePt: 'ressonância do recipiente', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Enhances Vessel effects in this domain (VERIFY exact effect)', requires: ['em_d0_hp', 'em_d0_mana'] },
-        { id: 'em_d0_life_leech', name: 'Life Leech', namePt: 'absorção de vida', tier: 'conviction', domain: 0, maxPoints: 1, effect: '+0.75% life leech chance', requires: ['em_d0_capacity'] },
+        { id: 'em_d0_aug_flurry_of_blows', name: 'Aug: Flurry of Blows', namePt: 'aug: rajada de golpes', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Augments Flurry of Blows', requires: ['em_d0_hp', 'em_d0_mana'], stages: [{ points: 50, effect: 'Aug I: +5% life leech on spell' }, { points: 625, effect: 'Aug II: +8% base damage' }] },
+        { id: 'em_d0_aug_sweeping_takedown', name: 'Aug: Sweeping Takedown', namePt: 'aug: derrubada varrida', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Augments Sweeping Takedown', requires: ['em_d0_capacity'], stages: [{ points: 50, effect: 'Aug I: +3% mana leech on spell' }, { points: 625, effect: 'Aug II: +25% crit extra damage' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'em_d0_gift_of_life', name: 'Gift of Life', namePt: 'presente da vida', tier: 'revelation', domain: 0, maxPoints: 1,
@@ -56,16 +54,16 @@ export const MONK_WHEEL: VocationWheel = {
         { id: 'em_d1_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 1, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'em_d1_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 1, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'em_d1_vessel_resonance', name: 'Vessel Resonance', namePt: 'ressonância do recipiente', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Enhances Vessel effects in this domain (VERIFY exact effect)', requires: ['em_d1_hp', 'em_d1_mana'] },
-        { id: 'em_d1_guiding_presence', name: 'Guiding Presence', namePt: 'presença guia', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Share 100% of your Mantra effect with nearby party members', requires: ['em_d1_capacity'] },
+        { id: 'em_d1_guiding_presence', name: 'Guiding Presence', namePt: 'presença guia', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Aura that shares your current Mantra effect with nearby party members', requires: ['em_d1_hp', 'em_d1_mana'] },
+        { id: 'em_d1_aug_mystic_repulse', name: 'Aug: Mystic Repulse', namePt: 'aug: repulsão mística', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Augments Mystic Repulse', requires: ['em_d1_capacity'], stages: [{ points: 225, effect: 'Aug I: -4s cooldown' }, { points: 450, effect: 'Aug II: +15% base damage' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'em_d1_spiritual_outburst', name: 'Spiritual Outburst', namePt: 'explosão espiritual', tier: 'revelation', domain: 1, maxPoints: 1,
-          effect: 'Release a powerful spiritual burst dealing damage to nearby enemies. (VERIFY exact stages)',
+          effect: 'Spends all Harmony; first hit is immediate (stronger), second hit comes 1s later (reduced damage).',
           stages: [
-            { points: 250, effect: 'Stage 1: spiritual burst — moderate damage' },
-            { points: 500, effect: 'Stage 2: spiritual burst — increased damage' },
-            { points: 1000, effect: 'Stage 3: spiritual burst — maximum damage' },
+            { points: 250, effect: 'Stage 1: moderate two-hit burst' },
+            { points: 500, effect: 'Stage 2: increased damage' },
+            { points: 1000, effect: 'Stage 3: maximum damage' },
           ]
         },
       ],
@@ -86,16 +84,16 @@ export const MONK_WHEEL: VocationWheel = {
         { id: 'em_d2_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 2, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'em_d2_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 2, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'em_d2_vessel_resonance', name: 'Vessel Resonance', namePt: 'ressonância do recipiente', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Enhances Vessel effects in this domain (VERIFY exact effect)', requires: ['em_d2_hp', 'em_d2_mana'] },
-        { id: 'em_d2_sanctuary', name: 'Sanctuary', namePt: 'santuário', tier: 'conviction', domain: 2, maxPoints: 1, effect: '+10% damage/healing to adjacent targets; creates Harmony field (2% per Harmony consumed)', requires: ['em_d2_capacity'] },
+        { id: 'em_d2_sanctuary', name: 'Sanctuary', namePt: 'santuário', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Using Harmony creates a 5s field; +2% damage/healing per Harmony point consumed', requires: ['em_d2_hp', 'em_d2_mana'] },
+        { id: 'em_d2_aug_mass_spirit_mend', name: 'Aug: Mass Spirit Mend', namePt: 'aug: recuperação espiritual em massa', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Mass Spirit Mend', requires: ['em_d2_capacity'], stages: [{ points: 225, effect: 'Aug I: +8% base heal' }, { points: 450, effect: 'Aug II: expand area by 1 sqm' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'em_d2_ascetic', name: 'Ascetic', namePt: 'asceta', tier: 'revelation', domain: 2, maxPoints: 1,
           effect: 'Passive Harmony bonus and auto attacks deal Mantra damage.',
           stages: [
-            { points: 250, effect: 'Stage 1: +1% Harmony base bonus; auto attacks deal 100% Mantra damage' },
-            { points: 500, effect: 'Stage 2: +2% Harmony base bonus; auto attacks deal 200% Mantra damage' },
-            { points: 1000, effect: 'Stage 3: +3% Harmony base bonus; auto attacks deal 300% Mantra damage' },
+            { points: 250, effect: 'Stage 1: +1% Harmony base bonus; auto-attacks deal 50% Mantra damage' },
+            { points: 500, effect: 'Stage 2: +2% Harmony base bonus; auto-attacks deal 100% Mantra damage' },
+            { points: 1000, effect: 'Stage 3: +3% Harmony base bonus; auto-attacks deal 150% Mantra damage' },
           ]
         },
       ],
@@ -116,12 +114,11 @@ export const MONK_WHEEL: VocationWheel = {
         { id: 'em_d3_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 3, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'em_d3_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 3, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'em_d3_vessel_resonance', name: 'Vessel Resonance', namePt: 'ressonância do recipiente', tier: 'conviction', domain: 3, maxPoints: 1, effect: 'Enhances Vessel effects in this domain (VERIFY exact effect)', requires: ['em_d3_hp', 'em_d3_mana'] },
-        { id: 'em_d3_mana_leech', name: 'Mana Leech', namePt: 'absorção de mana', tier: 'conviction', domain: 3, maxPoints: 1, effect: '+0.25% mana leech chance', requires: ['em_d3_capacity'] },
+        { id: 'em_d3_aug_chained_penance', name: 'Aug: Chained Penance', namePt: 'aug: penitência encadeada', tier: 'conviction', domain: 3, maxPoints: 1, effect: 'Augments Chained Penance', requires: ['em_d3_hp', 'em_d3_mana'], stages: [{ points: 225, effect: 'Aug I: +5% base damage' }, { points: 450, effect: 'Aug II: +1 additional target' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'em_d3_avatar_of_balance', name: 'Avatar of Balance', namePt: 'avatar do equilíbrio', tier: 'revelation', domain: 3, maxPoints: 1,
-          effect: 'Transform into a balanced avatar for 11s with damage reduction and critical hit bonuses. (VERIFY exact name and effects)',
+          effect: 'Transform into a balanced avatar for 11s with damage reduction and critical hit bonuses.',
           stages: [
             { points: 250, effect: 'Stage 1: 11s avatar; 5% damage reduction; all attacks critical (+5% extra); cooldown 120min' },
             { points: 500, effect: 'Stage 2: 11s avatar; 10% damage reduction; all attacks critical (+10% extra); cooldown 90min' },
