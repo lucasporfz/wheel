@@ -1,12 +1,400 @@
-<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wheel Bot — MVP (Static Pages)</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wheel of Destiny Planner</title>
+  <link href="https://static.tibia.com/styles/basic_part_1.css?version=10952e5880f1786e87b2b5e980dcabc0" rel="stylesheet" type="text/css">
+  <link href="https://static.tibia.com/styles/basic_part_2.css?version=431433a197b1c16dbc3186f624fdf592" rel="stylesheet" type="text/css">
+  <link href="https://static.tibia.com/styles/basic_part_3.css?version=5f5fb3d216e4d933c2ac92b3f82928b9" rel="stylesheet" type="text/css">
+  <link href="https://static.tibia.com/styles/global_part_1.css?version=36a7cf3815efe2c27bb61a2048b05b00" rel="stylesheet" type="text/css">
+  <link href="https://static.tibia.com/styles/global_part_2.css?version=bb610088efcd94a2cbde7da270e69184" rel="stylesheet" type="text/css">
+  <style>
+    body { background: #1a1a1a; margin: 0; padding: 20px; box-sizing: border-box; }
+    #wod-app { max-width: 1100px; margin: 0 auto; }
+    .hide { display: none !important; }
+    /* Fallback for tibia CSS classes used by the planner */
+    .ColorRed { color: red; }
+    .UseFullWidth { width: 100%; }
+    .Bold { font-weight: bold; }
+    .TextCenter { text-align: center; }
+    .PromotionPointsLimit { width: 60px; }
+    .WheelOfDestinyWrapper { display: block; }
+    /* ensure canvas is not stretched */
+    #wod-canvas { display: block; }
+  </style>
+</head>
+<body>
+  <div id="wod-app">
+
+    <p id="wod-warning">To use the Wheel of Destiny Planner, please ensure that JavaScript is enabled!</p>
+
+    <div id="wod-wrapper" class="WheelOfDestinyWrapper UseFullWidth hide">
+
+      <!-- Vocation + points + mobile code row -->
+      <div class="TableContainer Captionless">
+        <table class="Table5" cellpadding="0" cellspacing="0"><tr><td>
+          <div class="InnerTableContainer">
+            <table style="width:100%;" id="VocationSelection"><tr><td>
+              <div class="TableContentContainer">
+                <table class="TableContent" width="100%" style="border:1px solid #faf0d7;">
+                  <tr>
+                    <td class="LabelV150 PlannerTopTableLabel"><span>Vocation:</span></td>
+                    <td id="VocationList">
+                      <span class="OptionContainer"><label for="wod-vocation_knight"><span class="OptionContainer"><input id="wod-vocation_knight" type="radio" name="wod-vocation" value="knight" /><label for="wod-vocation_knight">Knight</label></span></label></span>
+                      <span class="OptionContainer"><label for="wod-vocation_druid"><span class="OptionContainer"><input id="wod-vocation_druid" type="radio" name="wod-vocation" value="druid" /><label for="wod-vocation_druid">Druid</label></span></label></span>
+                      <span class="OptionContainer"><label for="wod-vocation_sorcerer"><span class="OptionContainer"><input id="wod-vocation_sorcerer" type="radio" name="wod-vocation" value="sorcerer" /><label for="wod-vocation_sorcerer">Sorcerer</label></span></label></span>
+                      <span class="OptionContainer"><label for="wod-vocation_paladin"><span class="OptionContainer"><input id="wod-vocation_paladin" type="radio" name="wod-vocation" value="paladin" /><label for="wod-vocation_paladin">Paladin</label></span></label></span>
+                      <span class="OptionContainer"><label for="wod-vocation_monk"><span class="OptionContainer"><input id="wod-vocation_monk" type="radio" name="wod-vocation" value="monk" /><label for="wod-vocation_monk">Monk</label></span></label></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="LabelV150 PlannerTopTableLabel"><span>Promotion Points:</span></td>
+                    <td><span id="wod-reqpoints">0</span><span> / </span><input id="wod-limitpoints" class="PromotionPointsLimit" type="text" maxlength="4" inputmode="numeric" /></td>
+                  </tr>
+                  <tr class="CodeExport">
+                    <td class="LabelV150"><span>Code:</span></td>
+                    <td class="CodeColumn"><span id="wod-code-mobile"></span></td>
+                  </tr>
+                  <tr class="ButtonRow">
+                    <td class="ButtonColumn" colspan="2">
+                      <div class="BigButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue.gif)"><div class="ButtonEventHook"><div class="BigButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_over.gif);"></div><input class="BigButtonText" type="button" id="wod-code-copy-mobile" value="Copy to Clipboard" /></div></div>
+                      <div class="BigButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue.gif)"><div class="ButtonEventHook"><div class="BigButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_over.gif);"></div><input class="BigButtonText" type="button" id="wod-code-url-mobile" value="Copy full URL" /></div></div>
+                    </td>
+                  </tr>
+                  <tr class="CodeImport">
+                    <td class="CodeColumn" colspan="2">
+                      <input id="wod-code-input-mobile" class="UseFullWidth" type="text" maxlength="256" placeholder="Enter copied export code or URL of the planner, e.g. K0Y2BABkZGCBIB5P9Dgfz__wA" />
+                      <div id="wod-code-invalid-mobile" class="ColorRed hide InvalidCode">You have entered an invalid code.</div>
+                    </td>
+                  </tr>
+                  <tr class="ButtonRow">
+                    <td class="ButtonColumn" colspan="2">
+                      <div class="BigButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue.gif)"><div class="ButtonEventHook"><div class="BigButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_over.gif);"></div><input class="BigButtonText" type="button" id="wod-code-import-mobile" value="Import" /></div></div>
+                      <div class="BigButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue.gif)"><div class="ButtonEventHook"><div class="BigButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_over.gif);"></div><input class="BigButtonText" type="button" id="wod-code-reset-mobile" value="Reset" /></div></div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td></tr></table>
+          </div>
+        </td></tr></table>
+      </div>
+
+      <br />
+
+      <!-- Desktop Code section -->
+      <div class="TableContainer">
+        <table class="Table5" cellpadding="0" cellspacing="0">
+          <div class="CaptionContainer"><div class="CaptionInnerContainer">
+            <span class="CaptionEdgeLeftTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+            <span class="CaptionEdgeRightTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+            <span class="CaptionBorderTop" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+            <span class="CaptionVerticalLeft" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+            <div class="Text">Code</div>
+            <span class="CaptionVerticalRight" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+            <span class="CaptionBorderBottom" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+            <span class="CaptionEdgeLeftBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+            <span class="CaptionEdgeRightBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+          </div></div>
+          <tr><td>
+            <div class="InnerTableContainer">
+              <table style="width:100%;">
+                <tr class="CodeExport">
+                  <td class="CodeColumn"><span id="wod-code"></span></td>
+                  <td class="ButtonColumn">
+                    <div class="BigButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue.gif)"><div class="ButtonEventHook"><div class="BigButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_over.gif);"></div><input class="BigButtonText" type="button" id="wod-code-copy" value="Copy to Clipboard" /></div></div>
+                    <div class="BigButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue.gif)"><div class="ButtonEventHook"><div class="BigButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_over.gif);"></div><input class="BigButtonText" type="button" id="wod-code-url" value="Copy full URL" /></div></div>
+                  </td>
+                </tr>
+                <tr class="CodeImport">
+                  <td class="CodeColumn">
+                    <input id="wod-code-input" class="UseFullWidth" type="text" maxlength="256" placeholder="Enter copied export code or URL of the planner, e.g. K0Y2BABkZGCBIB5P9Dgfz__wA" />
+                    <div id="wod-code-invalid" class="ColorRed hide InvalidCode">You have entered an invalid code.</div>
+                  </td>
+                  <td class="ButtonColumn">
+                    <div class="BigButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue.gif)"><div class="ButtonEventHook"><div class="BigButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_over.gif);"></div><input class="BigButtonText" type="button" id="wod-code-import" value="Import" /></div></div>
+                    <div class="BigButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue.gif)"><div class="ButtonEventHook"><div class="BigButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_over.gif);"></div><input class="BigButtonText" type="button" id="wod-code-reset" value="Reset" /></div></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td></tr>
+        </table>
+      </div>
+
+      <br />
+
+      <!-- Main wheel + selection/info panel -->
+      <table id="WheelOfDestinySelectionBlock"><tr id="WheelOfDestinySelection">
+
+        <!-- Left: Selection + Information boxes -->
+        <td id="PerkInformationTables">
+
+          <!-- Selection box -->
+          <div class="TableContainer">
+            <table class="Table5" cellpadding="0" cellspacing="0">
+              <div class="CaptionContainer"><div class="CaptionInnerContainer">
+                <span class="CaptionEdgeLeftTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                <span class="CaptionEdgeRightTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                <span class="CaptionBorderTop" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+                <span class="CaptionVerticalLeft" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+                <div class="Text">Selection</div>
+                <span class="CaptionVerticalRight" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+                <span class="CaptionBorderBottom" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+                <span class="CaptionEdgeLeftBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                <span class="CaptionEdgeRightBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+              </div></div>
+              <tr><td>
+                <div class="InnerTableContainer">
+                  <table style="width:100%;"><tr><td class="BoxWrapper">
+                    <div class="SkillPercentage hide" id="wod-selection-box-bar">
+                      <span class="PercentageBar" id="wod-selection-box-bar-filling" style="background-image:url(https://static.tibia.com/images/community/wheelofdestiny/skill-percentage.png);"></span>
+                      <div class="Text" id="wod-selection-box-bar-text">0/100</div>
+                      <span class="CaptionEdgeLeftTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                      <span class="CaptionEdgeRightTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                      <span class="CaptionBorderTop" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+                      <span class="CaptionVerticalLeft" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+                      <span class="CaptionVerticalRight" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+                      <span class="CaptionBorderBottom" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+                      <span class="CaptionEdgeLeftBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                      <span class="CaptionEdgeRightBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                    </div>
+                    <div id="wod-selection-box-empty">Select a slice ...</div>
+                    <!-- Medium (dedication + conviction) -->
+                    <div id="wod-selection-box-medium" class="hide">
+                      <div id="wod-selection-box-dedication-wrapper" class="PerkWrapper">
+                        <div id="wod-selection-box-dedication-header" class="Bold UseFullWidth">Dedication Perk</div>
+                        <div id="wod-selection-box-dedication-value" class="SkillValue"></div>
+                      </div>
+                      <div id="wod-selection-box-conviction-wrapper" class="PerkWrapper">
+                        <div id="wod-selection-box-conviction-header" class="Bold UseFullWidth">Conviction Perk</div>
+                        <div id="wod-selection-box-conviction-value" class="SkillValue"></div>
+                      </div>
+                      <div id="wod-selection-box-buttons" class="SmallButtonRow">
+                        <span id="SubtractPerkButtons">
+                          <div class="SmallButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_small.gif)"><div class="ButtonEventHook"><div class="SmallButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_small_over.gif);"></div><input class="SmallButtonText" type="button" id="wod-maxminus-button" value="- Max" /></div></div>
+                          <div class="SmallButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_small.gif)"><div class="ButtonEventHook"><div class="SmallButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_small_over.gif);"></div><input class="SmallButtonText" type="button" id="wod-minus-button" value="- 1" /></div></div>
+                        </span>
+                        <span id="AddPerkButtons">
+                          <div class="SmallButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_small.gif)"><div class="ButtonEventHook"><div class="SmallButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_small_over.gif);"></div><input class="SmallButtonText" type="button" id="wod-plus-button" value="+ 1" /></div></div>
+                          <div class="SmallButton" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_small.gif)"><div class="ButtonEventHook"><div class="SmallButtonOver" style="background-image:url(https://static.tibia.com/images/global/buttons/button_blue_small_over.gif);"></div><input class="SmallButtonText" type="button" id="wod-maxplus-button" value="+ Max" /></div></div>
+                        </span>
+                      </div>
+                    </div>
+                    <!-- Large (revelation) -->
+                    <div id="wod-selection-box-large" class="hide">
+                      <div id="wod-selection-box-revelation-wrapper" class="PerkWrapper">
+                        <div id="wod-selection-box-revelation-header" class="Bold UseFullWidth">Revelation Perk</div>
+                        <div class="TextCenter"><div id="wod-selection-box-revelation-icon"></div></div>
+                        <div id="wod-selection-box-revelation-name" class="LargePerkName"></div>
+                        <div id="wod-selection-box-revelation-description" class="LargePerkValue"></div>
+                      </div>
+                    </div>
+                    <!-- Socket (gem + vessel) -->
+                    <div id="wod-selection-box-socket" class="hide">
+                      <div id="wod-selection-box-gem-wrapper" class="GemWrapper">
+                        <div id="wod-selection-box-gem-modgrades" class="ModGrades">
+                          <div class="ModGradesBox">
+                            <img id="wod-selection-box-gem-modgrades-1" class="hide" src="https://static.tibia.com/images/community/wheelofdestiny/icon_modgrade4.png">
+                            <img id="wod-selection-box-gem-modgrades-2" class="hide" src="https://static.tibia.com/images/community/wheelofdestiny/icon_modgrade4.png">
+                            <img id="wod-selection-box-gem-modgrades-3" class="hide" src="https://static.tibia.com/images/community/wheelofdestiny/icon_modgrade4.png">
+                          </div>
+                        </div>
+                        <div id="wod-selection-box-gem-name" class="Bold UseFullWidth">Gem</div>
+                        <div id="wod-selection-box-gem-mod-wrapper" class="GemModsWrapper">
+                          <div class="GemDropdownWrapper"><select name="wod-selection-box-gem-mod1-dropdown" class="GemDropdown"></select></div>
+                          <div class="ModEffectWrapper"><div class="ModEffectIconWrapper"><div id="wod-selection-box-gem-mod1-icon"></div></div><div id="wod-selection-box-gem-mod1" class="ModEffectValue"></div></div>
+                          <div class="GemDropdownWrapper"><select name="wod-selection-box-gem-mod2-dropdown" class="GemDropdown"></select></div>
+                          <div class="ModEffectWrapper"><div class="ModEffectIconWrapper"><div id="wod-selection-box-gem-mod2-icon"></div></div><div id="wod-selection-box-gem-mod2" class="ModEffectValue"></div></div>
+                          <div class="GemDropdownWrapper"><select name="wod-selection-box-gem-mod3-dropdown" class="GemDropdown"></select></div>
+                          <div class="ModEffectWrapper"><div class="ModEffectIconWrapper"><div id="wod-selection-box-gem-mod3-icon"></div></div><div id="wod-selection-box-gem-mod3" class="ModEffectValue"></div></div>
+                        </div>
+                      </div>
+                      <div id="wod-selection-box-vessel-wrapper" class="VesselWrapper">
+                        <div id="wod-selection-box-vessel-header" class="Bold UseFullWidth">Vessel</div>
+                        <div id="wod-selection-box-vessel-value" class="VesselValue"></div>
+                      </div>
+                    </div>
+                  </td></tr></table>
+                </div>
+              </td></tr>
+            </table>
+          </div>
+
+          <!-- Information box -->
+          <div class="TableContainer">
+            <table class="Table5" cellpadding="0" cellspacing="0" id="InformationBox">
+              <div class="CaptionContainer"><div class="CaptionInnerContainer">
+                <span class="CaptionEdgeLeftTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                <span class="CaptionEdgeRightTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                <span class="CaptionBorderTop" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+                <span class="CaptionVerticalLeft" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+                <div class="Text">Information</div>
+                <span class="CaptionVerticalRight" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+                <span class="CaptionBorderBottom" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+                <span class="CaptionEdgeLeftBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                <span class="CaptionEdgeRightBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+              </div></div>
+              <tr><td>
+                <div class="InnerTableContainer">
+                  <table style="width:100%;"><tr><td class="BoxWrapper UseFullWidth">
+                    <div class="SkillPercentage hide" id="wod-information-box-bar">
+                      <span class="PercentageBar" id="wod-information-box-bar-filling" style="background-image:url(https://static.tibia.com/images/community/wheelofdestiny/skill-percentage.png);"></span>
+                      <div class="Text" id="wod-information-box-bar-text">0/100</div>
+                      <span class="CaptionEdgeLeftTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                      <span class="CaptionEdgeRightTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                      <span class="CaptionBorderTop" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+                      <span class="CaptionVerticalLeft" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+                      <span class="CaptionVerticalRight" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+                      <span class="CaptionBorderBottom" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+                      <span class="CaptionEdgeLeftBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                      <span class="CaptionEdgeRightBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+                    </div>
+                    <div id="wod-information-box-empty">Move the cursor over a slice ...</div>
+                    <!-- Medium -->
+                    <div id="wod-information-box-medium" class="hide">
+                      <div id="wod-information-box-dedication-wrapper" class="PerkWrapper">
+                        <div id="wod-information-box-dedication-header" class="Bold UseFullWidth">Dedication Perk</div>
+                        <div id="wod-information-box-dedication-value" class="SkillValue"></div>
+                      </div>
+                      <div id="wod-information-box-conviction-wrapper" class="PerkWrapper">
+                        <div id="wod-information-box-conviction-header" class="Bold UseFullWidth">Conviction Perk</div>
+                        <div id="wod-information-box-conviction-value" class="SkillValue"></div>
+                      </div>
+                      <div id="wod-information-box-fillinfo" class="PerkFillInfo">Fill or empty a slice with a right-click.</div>
+                    </div>
+                    <!-- Large (revelation) -->
+                    <div id="wod-information-box-large" class="hide">
+                      <div id="wod-information-box-revelation-wrapper" class="PerkWrapper">
+                        <div id="wod-information-box-revelation-header" class="Bold UseFullWidth">Revelation Perk</div>
+                        <div class="TextCenter"><div id="wod-information-box-revelation-icon"></div></div>
+                        <div id="wod-information-box-revelation-name" class="LargePerkName"></div>
+                        <div id="wod-information-box-revelation-description" class="LargePerkValue"></div>
+                      </div>
+                    </div>
+                    <!-- Socket -->
+                    <div id="wod-information-box-socket" class="hide">
+                      <div id="wod-information-box-gem-wrapper" class="GemWrapper">
+                        <div id="wod-information-box-gem-modgrades" class="ModGrades">
+                          <div class="ModGradesBox">
+                            <img id="wod-information-box-gem-modgrades-1" class="hide" src="https://static.tibia.com/images/community/wheelofdestiny/icon_modgrade4.png">
+                            <img id="wod-information-box-gem-modgrades-2" class="hide" src="https://static.tibia.com/images/community/wheelofdestiny/icon_modgrade4.png">
+                            <img id="wod-information-box-gem-modgrades-3" class="hide" src="https://static.tibia.com/images/community/wheelofdestiny/icon_modgrade4.png">
+                          </div>
+                        </div>
+                        <div id="wod-information-box-gem-name" class="Bold UseFullWidth">Gem</div>
+                        <div id="wod-information-box-gem-mod-wrapper" class="GemModsWrapper">
+                          <div class="ModEffectWrapper"><div class="ModEffectIconWrapper"><div id="wod-information-box-gem-mod1-icon"></div></div><div id="wod-information-box-gem-mod1" class="ModEffectValue"></div></div>
+                          <div class="ModEffectWrapper"><div class="ModEffectIconWrapper"><div id="wod-information-box-gem-mod2-icon"></div></div><div id="wod-information-box-gem-mod2" class="ModEffectValue"></div></div>
+                          <div class="ModEffectWrapper"><div class="ModEffectIconWrapper"><div id="wod-information-box-gem-mod3-icon"></div></div><div id="wod-information-box-gem-mod3" class="ModEffectValue"></div></div>
+                          <div class="GemModSelectionPlaceholder"></div>
+                        </div>
+                      </div>
+                      <div id="wod-information-box-vessel-wrapper" class="VesselWrapper">
+                        <div id="wod-information-box-vessel-header" class="Bold UseFullWidth">Vessel</div>
+                        <div id="wod-information-box-vessel-value" class="VesselValue"></div>
+                      </div>
+                    </div>
+                  </td></tr></table>
+                </div>
+              </td></tr>
+            </table>
+          </div>
+
+        </td>
+
+        <!-- Right: Canvas -->
+        <td id="WheelOfDestiny">
+          <canvas id="wod-canvas" width="522" height="522">Your browser does not support HTML5 canvas!</canvas>
+        </td>
+
+      </tr></table>
+
+      <br />
+
+      <!-- Perks Summary -->
+      <div class="TableContainer">
+        <table class="Table3" cellpadding="0" cellspacing="0">
+          <div class="CaptionContainer"><div class="CaptionInnerContainer">
+            <span class="CaptionEdgeLeftTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+            <span class="CaptionEdgeRightTop" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+            <span class="CaptionBorderTop" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+            <span class="CaptionVerticalLeft" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+            <div class="Text">Perks Summary</div>
+            <span class="CaptionVerticalRight" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-vertical.gif);"></span>
+            <span class="CaptionBorderBottom" style="background-image:url(https://static.tibia.com/images/global/content/table-headline-border.gif);"></span>
+            <span class="CaptionEdgeLeftBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+            <span class="CaptionEdgeRightBottom" style="background-image:url(https://static.tibia.com/images/global/content/box-frame-edge.gif);"></span>
+          </div></div>
+          <tr><td>
+            <div class="InnerTableContainer">
+              <table style="width:100%;"><tr id="PerksSummary">
+                <td>
+                  <div id="wod-dedication-perks-header" class="PerksSummaryHeader Bold">Dedication Perks</div>
+                  <table class="UseFullWidth"><tr><td><div class="TableContentContainer"><table class="TableContent" width="100%" id="wod-dedication-perks"></table></div></td></tr></table>
+                  <div id="wod-conviction-perks-header" class="PerksSummaryHeader PerkTableMarginTop Bold">Revelation Perks</div>
+                  <table class="UseFullWidth"><tr><td><div class="TableContentContainer"><table class="TableContent" width="100%" id="wod-conviction-perks"></table></div></td></tr></table>
+                </td>
+                <td>
+                  <div id="wod-revelation-perks-header" class="PerksSummaryHeader PerkTableMarginTopOnMobile Bold">Conviction Perks</div>
+                  <table class="UseFullWidth"><tr><td><div class="TableContentContainer"><table class="TableContent" width="100%" id="wod-revelation-perks"></table></div></td></tr></table>
+                  <div id="wod-gem-perks-header" class="PerksSummaryHeader PerkTableMarginTop Bold">Vessels</div>
+                  <table class="UseFullWidth"><tr><td><div class="TableContentContainer"><table class="TableContent" width="100%" id="wod-gem-perks"></table></div></td></tr></table>
+                </td>
+              </tr><tr>
+                <td id="wod-summary-note" class="PerksSummaryNote" colspan="2"></td>
+              </tr></table>
+            </div>
+          </td></tr>
+        </table>
+      </div>
+
+    </div><!-- end #wod-wrapper -->
+
+  </div><!-- end #wod-app -->
+
+  <!-- jQuery required by planner.js -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- WASM module (must load before planner.js) -->
+  <script src="%BASE_URL%planner-wasm.js"></script>
+  <!-- Planner (defines runWodPlanner) -->
+  <script src="%BASE_URL%planner.js"></script>
+  <!-- Start the planner with local data -->
+  <script>
+    runWodPlanner("%BASE_URL%data.json", {
+      warning: "wod-warning",
+      wrapper: "wod-wrapper",
+      vocationRadio: "wod-vocation",
+      reqPoints: "wod-reqpoints",
+      limitPoints: "wod-limitpoints",
+      code: "wod-code",
+      codeCopy: "wod-code-copy",
+      codeUrl: "wod-code-url",
+      codeImport: "wod-code-import",
+      codeReset: "wod-code-reset",
+      codeInput: "wod-code-input",
+      codeInvalid: "wod-code-invalid",
+      codeMobile: "wod-code-mobile",
+      codeCopyMobile: "wod-code-copy-mobile",
+      codeUrlMobile: "wod-code-url-mobile",
+      codeImportMobile: "wod-code-import-mobile",
+      codeResetMobile: "wod-code-reset-mobile",
+      codeInputMobile: "wod-code-input-mobile",
+      codeInvalidMobile: "wod-code-invalid-mobile",
+      selectionBox: "wod-selection-box",
+      maxMinus: "wod-maxminus-button",
+      minus: "wod-minus-button",
+      maxPlus: "wod-maxplus-button",
+      plus: "wod-plus-button",
+      infoBox: "wod-information-box",
+      canvas: "wod-canvas",
+      dedicationPerks: "wod-dedication-perks",
+      convictionPerks: "wod-conviction-perks",
+      revelationPerks: "wod-revelation-perks",
+      gemPerks: "wod-gem-perks",
+      summaryNote: "wod-summary-note"
+    });
+  </script>
+</body>
 </html>
