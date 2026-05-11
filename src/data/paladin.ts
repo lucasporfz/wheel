@@ -28,8 +28,8 @@ export const PALADIN_WHEEL: VocationWheel = {
         { id: 'pal_d0_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 0, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'pal_d0_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'pal_d0_ballistic', name: 'Ballistic Mastery', namePt: 'maestria balística', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'While using a bow: attacks/spells treat physical & holy sensitivity as 2% higher on all enemies hit', requires: ['pal_d0_hp', 'pal_d0_mana'] },
-        { id: 'pal_d0_aug_divine_dazzle', name: 'Aug: Divine Dazzle', namePt: 'aug: deslumbramento divino', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Augments Divine Dazzle', requires: ['pal_d0_capacity'], stages: [{ points: 50, effect: 'Aug I: +15% crit extra damage, +10% non-stacking crit chance' }, { points: 625, effect: 'Aug II: +4% base damage' }] },
+        { id: 'pal_d0_ballistic', name: 'Ballistic Mastery', namePt: 'maestria balística', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'The critical extra damage for attacks with a crossbow is increased by 10%. While wielding a bow your attacks and spells have +4% physical and holy pierce.', requires: ['pal_d0_hp', 'pal_d0_mana'] },
+        { id: 'pal_d0_aug_divine_dazzle', name: 'Aug: Divine Dazzle', namePt: 'aug: deslumbramento divino', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Augments Divine Dazzle', requires: ['pal_d0_capacity'], stages: [{ points: 50, effect: 'Aug I: Jumps to +1 additional target' }, { points: 625, effect: 'Aug II: Duration increased; -4s Cooldown' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'pal_d0_gift_of_life', name: 'Gift of Life', namePt: 'presente da vida', tier: 'revelation', domain: 0, maxPoints: 1,
@@ -59,7 +59,7 @@ export const PALADIN_WHEEL: VocationWheel = {
         { id: 'pal_d1_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 1, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
         { id: 'pal_d1_positional', name: 'Positional Tactics', namePt: 'táticas posicionais', tier: 'conviction', domain: 1, maxPoints: 1, effect: '+3 distance fighting when no creature within 1 sqm; else +3 holy magic level and +3 healing magic level', requires: ['pal_d1_hp', 'pal_d1_mana'] },
-        { id: 'pal_d1_aug_divine_caldera', name: 'Aug: Divine Caldera', namePt: 'aug: caldeira divina', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Augments Divine Caldera', requires: ['pal_d1_capacity'], stages: [{ points: 225, effect: 'Aug I: +10% base damage' }, { points: 450, effect: 'Aug II: expand area by 1 sqm' }] },
+        { id: 'pal_d1_aug_divine_caldera', name: 'Aug: Divine Caldera', namePt: 'aug: caldeira divina', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Augments Divine Caldera', requires: ['pal_d1_capacity'], stages: [{ points: 225, effect: 'Aug I: -20 Mana Cost' }, { points: 450, effect: 'Aug II: +8.5% Base Damage' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'pal_d1_divine_grenade', name: 'Divine Grenade', namePt: 'granada divina', tier: 'revelation', domain: 1, maxPoints: 1,
@@ -88,8 +88,8 @@ export const PALADIN_WHEEL: VocationWheel = {
         { id: 'pal_d2_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 2, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'pal_d2_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 2, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'pal_d2_aug_sharpshooter', name: 'Aug: Sharpshooter', namePt: 'aug: atirador certeiro', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Sharpshooter', requires: ['pal_d2_hp', 'pal_d2_mana'], stages: [{ points: 50, effect: 'Aug I: +5% life leech on spell' }, { points: 625, effect: 'Aug II: +10% base damage' }] },
-        { id: 'pal_d2_aug_strong_ethereal_spear', name: 'Aug: Strong Ethereal Spear', namePt: 'aug: lança etérea forte', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Strong Ethereal Spear', requires: ['pal_d2_capacity'], stages: [{ points: 225, effect: 'Aug I: +15% base damage' }, { points: 450, effect: 'Aug II: -2s cooldown' }] },
+        { id: 'pal_d2_aug_sharpshooter', name: 'Aug: Sharpshooter', namePt: 'aug: atirador certeiro', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Sharpshooter', requires: ['pal_d2_hp', 'pal_d2_mana'], stages: [{ points: 50, effect: 'Aug I: Enables the casting of support spells while active and Focus secondary group cooldown -8s' }, { points: 625, effect: 'Aug II: -6s Cooldown; distance skill bonus increased by +5%' }] },
+        { id: 'pal_d2_aug_strong_ethereal_spear', name: 'Aug: Strong Ethereal Spear', namePt: 'aug: lança etérea forte', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Strong Ethereal Spear', requires: ['pal_d2_capacity'], stages: [{ points: 225, effect: 'Aug I: -2s Cooldown' }, { points: 450, effect: 'Aug II: +380% Base Damage' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'pal_d2_divine_empowerment', name: 'Divine Empowerment', namePt: 'empoderamento divino', tier: 'revelation', domain: 2, maxPoints: 1,
@@ -118,7 +118,7 @@ export const PALADIN_WHEEL: VocationWheel = {
         { id: 'pal_d3_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 3, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'pal_d3_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 3, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'pal_d3_aug_swift_foot', name: 'Aug: Swift Foot', namePt: 'aug: pé veloz', tier: 'conviction', domain: 3, maxPoints: 1, effect: 'Augments Swift Foot', requires: ['pal_d3_hp', 'pal_d3_mana'], stages: [{ points: 225, effect: 'Aug I: +2 movement speed' }, { points: 450, effect: 'Aug II: 10% chance to evade attacks' }] },
+        { id: 'pal_d3_aug_swift_foot', name: 'Aug: Swift Foot', namePt: 'aug: pé veloz', tier: 'conviction', domain: 3, maxPoints: 1, effect: 'Augments Swift Foot', requires: ['pal_d3_hp', 'pal_d3_mana'], stages: [{ points: 225, effect: 'Aug I: Focus secondary group cooldown -8s. Attacks and spells are enabled but dealt damage is reduced by 50%.' }, { points: 450, effect: 'Aug II: -6s Cooldown and the damage dealt is no longer reduced.' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'pal_d3_avatar_of_light', name: 'Avatar of Light', namePt: 'avatar da luz', tier: 'revelation', domain: 3, maxPoints: 1,

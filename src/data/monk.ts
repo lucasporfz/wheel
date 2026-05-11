@@ -24,7 +24,7 @@ export const MONK_WHEEL: VocationWheel = {
         { id: 'em_d0_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 0, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'em_d0_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 0, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'em_d0_aug_flurry_of_blows', name: 'Aug: Flurry of Blows', namePt: 'aug: rajada de golpes', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Augments Flurry of Blows', requires: ['em_d0_hp', 'em_d0_mana'], stages: [{ points: 50, effect: 'Aug I: +5% life leech on spell' }, { points: 625, effect: 'Aug II: +8% base damage' }] },
+        { id: 'em_d0_aug_flurry_of_blows', name: 'Aug: Flurry of Blows', namePt: 'aug: rajada de golpes', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Augments Flurry of Blows', requires: ['em_d0_hp', 'em_d0_mana'], stages: [{ points: 50, effect: 'Aug I: Adds 5% life leech to this spell' }, { points: 625, effect: 'Aug II: +15% Base Damage' }] },
         { id: 'em_d0_aug_sweeping_takedown', name: 'Aug: Sweeping Takedown', namePt: 'aug: derrubada varrida', tier: 'conviction', domain: 0, maxPoints: 1, effect: 'Augments Sweeping Takedown', requires: ['em_d0_capacity'], stages: [{ points: 50, effect: 'Aug I: +3% mana leech on spell' }, { points: 625, effect: 'Aug II: +25% crit extra damage' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
@@ -54,8 +54,8 @@ export const MONK_WHEEL: VocationWheel = {
         { id: 'em_d1_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 1, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'em_d1_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 1, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'em_d1_guiding_presence', name: 'Guiding Presence', namePt: 'presença guia', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Aura that shares your current Mantra effect with nearby party members', requires: ['em_d1_hp', 'em_d1_mana'] },
-        { id: 'em_d1_aug_mystic_repulse', name: 'Aug: Mystic Repulse', namePt: 'aug: repulsão mística', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Augments Mystic Repulse', requires: ['em_d1_capacity'], stages: [{ points: 225, effect: 'Aug I: -4s cooldown' }, { points: 450, effect: 'Aug II: +15% base damage' }] },
+        { id: 'em_d1_guiding_presence', name: 'Guiding Presence', namePt: 'presença guia', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Gain an aura that shares 50% of your mantra with members of your group.', requires: ['em_d1_hp', 'em_d1_mana'] },
+        { id: 'em_d1_aug_mystic_repulse', name: 'Aug: Mystic Repulse', namePt: 'aug: repulsão mística', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Augments Mystic Repulse', requires: ['em_d1_capacity'], stages: [{ points: 225, effect: 'Aug I: -4s Cooldown' }, { points: 450, effect: 'Aug II: +40% Base Damage' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'em_d1_spiritual_outburst', name: 'Spiritual Outburst', namePt: 'explosão espiritual', tier: 'revelation', domain: 1, maxPoints: 1,
@@ -114,7 +114,7 @@ export const MONK_WHEEL: VocationWheel = {
         { id: 'em_d3_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 3, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'em_d3_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 3, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'em_d3_aug_chained_penance', name: 'Aug: Chained Penance', namePt: 'aug: penitência encadeada', tier: 'conviction', domain: 3, maxPoints: 1, effect: 'Augments Chained Penance', requires: ['em_d3_hp', 'em_d3_mana'], stages: [{ points: 225, effect: 'Aug I: +5% base damage' }, { points: 450, effect: 'Aug II: +1 additional target' }] },
+        { id: 'em_d3_aug_chained_penance', name: 'Aug: Chained Penance', namePt: 'aug: penitência encadeada', tier: 'conviction', domain: 3, maxPoints: 1, effect: 'Augments Chained Penance', requires: ['em_d3_hp', 'em_d3_mana'], stages: [{ points: 225, effect: 'Aug I: Jumps to +1 additional target' }, { points: 450, effect: 'Aug II: +18% Base Damage' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'em_d3_avatar_of_balance', name: 'Avatar of Balance', namePt: 'avatar do equilíbrio', tier: 'revelation', domain: 3, maxPoints: 1,
