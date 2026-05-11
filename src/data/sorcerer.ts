@@ -54,8 +54,8 @@ export const SORCERER_WHEEL: VocationWheel = {
         { id: 'ms_d1_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 1, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ms_d1_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 1, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ms_d1_focus_mastery', name: 'Focus Mastery', namePt: 'maestria de foco', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Next attack spell within 12s after using Hell\'s Core or Rage of the Skies deals +35% damage', requires: ['ms_d1_hp', 'ms_d1_mana'] },
-        { id: 'ms_d1_aug_focus_spells', name: 'Aug: Focus Spells', namePt: 'aug: feitiços de foco', tier: 'conviction', domain: 1, maxPoints: 1, effect: "Augments Hell's Core and Rage of the Skies", requires: ['ms_d1_capacity'], stages: [{ points: 50, effect: "Aug I: +5% base damage (Hell's Core & Rage of the Skies)" }, { points: 625, effect: 'Aug II: -4s cooldown on both' }] },
+        { id: 'ms_d1_focus_mastery', name: 'Focus Mastery', namePt: 'maestria de foco', tier: 'conviction', domain: 1, maxPoints: 1, effect: 'Increases the damage of your next damage spell by 35% within 12 seconds after casting a focus spell.', requires: ['ms_d1_hp', 'ms_d1_mana'] },
+        { id: 'ms_d1_aug_focus_spells', name: 'Aug: Focus Spells', namePt: 'aug: feitiços de foco', tier: 'conviction', domain: 1, maxPoints: 1, effect: "Augments Hell's Core and Rage of the Skies", requires: ['ms_d1_capacity'], stages: [{ points: 50, effect: "+5% Base Damage for Hell's Core and Rage of the Skies" }, { points: 625, effect: "-4s Cooldown; Focus secondary group cooldown -4s for Hell's Core and Rage of the Skies" }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ms_d1_beam_mastery', name: 'Beam Mastery', namePt: 'maestria de feixe', tier: 'revelation', domain: 1, maxPoints: 1,
@@ -84,7 +84,8 @@ export const SORCERER_WHEEL: VocationWheel = {
         { id: 'ms_d2_familiar_cd', name: 'Familiar Cooldown', namePt: 'cooldown familiar', tier: 'dedication', domain: 2, maxPoints: 3, effect: '-1s familiar cooldown per point' },
         { id: 'ms_d2_mitigation', name: 'Mitigation', namePt: 'mitigação', tier: 'dedication', domain: 2, maxPoints: 3, effect: '+0.03% mitigation multiplier per point' },
         // ── Conviction ──────────────────────────────────────────────────────
-        { id: 'ms_d2_aug_great_fire_wave', name: 'Aug: Great Fire Wave', namePt: 'aug: grande onda de fogo', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Great Fire Wave', requires: ['ms_d2_hp', 'ms_d2_mana'], stages: [{ points: 50, effect: 'Aug I: +15% crit extra damage, +10% non-stacking crit chance' }, { points: 625, effect: 'Aug II: +4% base damage' }] },
+        { id: 'ms_d2_aug_great_fire_wave', name: 'Aug: Great Fire Wave', namePt: 'aug: grande onda de fogo', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Great Fire Wave', requires: ['ms_d2_hp', 'ms_d2_mana'], stages: [{ points: 50, effect: 'Aug I: Adds 15% critical extra damage for this spell.' }, { points: 625, effect: 'Aug II: +5% Base Damage' }] },
+        { id: 'ms_d2_aug_energy_wave', name: 'Aug: Energy Wave', namePt: 'aug: onda de energia', tier: 'conviction', domain: 2, maxPoints: 1, effect: 'Augments Energy Wave', requires: ['ms_d2_capacity'], stages: [{ points: 50, effect: 'Aug I: +5% Base Damage' }, { points: 625, effect: 'Aug II: Affected area enlarged' }] },
         // ── Revelation ──────────────────────────────────────────────────────
         {
           id: 'ms_d2_drain_body', name: 'Drain Body', namePt: 'drenar corpo', tier: 'revelation', domain: 2, maxPoints: 1,
